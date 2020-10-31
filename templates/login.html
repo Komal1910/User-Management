@@ -1,0 +1,85 @@
+<html>
+    <head>
+        <style>
+            h2{
+                margin: 5px;
+                color: blanchedalmond;
+                text-align: center;    
+            }
+            h3{
+                margin: 5px;
+                color: navy;
+                text-align: center;
+                font-family: cursive;
+            }
+            label{
+                color: navy ;
+                font-size: 15px;
+                font-family: cursive;
+                font-style: italic;
+            }
+            body{
+                background-image: url("/static/four.jpg");
+                background-size: cover;
+            }
+            .form-container {
+                border: 2px solid pink;
+                border-radius: 10px;
+                width: 25%;
+                background-color: pink;
+                margin-left: 67%;
+                margin-top: -0.1%;
+                padding: 0 40px;
+            }
+            input, select{
+                width: 65%;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                margin-bottom: 10px;
+                font-size: 12px;
+                padding: 5px;
+            }            
+            .sel{
+                width: auto;
+            }
+            .rad{
+                width: 5%;
+            }
+            div{
+                border: 2px solid plum;
+                border-radius: 10px;
+                width: 20%;
+                background-color: plum;
+                                               
+            }
+        </style>
+    </head>
+    <body> 
+        <h1 style="color: red;">{{error}}</h1>
+        <div class="form-container">
+              
+        <form method="POST" action="/afterlogin/">
+            <table>             
+                
+                <tr>
+                    <label>Email:</label><br>
+                </tr>
+                <tr>
+                    <input type="email" name="email" placeholder ="Enter your email"><br><br>
+                </tr>
+                <tr>            
+                    <label>Password:</label><br>
+                </tr>
+                <tr>
+                    <input type="password" name="password" placeholder="Enter your password"><br><br>
+                </tr>                
+                <tr>
+                <input type="submit" value="LOGIN"><br>
+                </tr>
+                <tr>
+                    <a href="/signup/">Not Registered? </a>
+                </tr>
+        </form>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,121 @@
+<html>
+    <head>
+        <style>
+            h2{
+                margin: 5px;
+                color: blanchedalmond;
+                text-align: center;    
+            }
+            h3{
+                margin: 5px;
+                color: navy;
+                text-align: center;
+                font-family: cursive;
+            }
+            label{
+                color: navy ;
+                font-size: 15px;
+                font-family: cursive;
+                font-style: italic;
+            }
+            body{
+                background-image: url("/static/four.jpg");
+                background-size: cover;
+            }
+            .form-container {
+                border: 2px solid pink;
+                border-radius: 10px;
+                width: 25%;
+                background-color: pink;
+                margin: auto;
+                padding: 0 40px;
+            }
+            input, select{
+                width: 70%;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                margin-bottom: 10px;
+                font-size: 12px;
+                padding: 5px;
+            }            
+            .sel{
+                width: auto;
+            }
+            .rad{
+                width: 5%;
+            }
+            div{
+                border: 2px solid plum;
+                border-radius: 10px;
+                width: 30%;
+                background-color: plum;
+                margin-top: 40%;
+                margin-left: 05%;
+                float:right;                
+            }
+        </style>
+    </head>
+    <body> 
+        <h1 style="color: red;">{{error}}</h1>
+        <div class="form-container">
+            
+        <h3>Signup here</h3>      
+        <form method="POST" action="/aftersignup/">
+            <table>
+                <tr>            
+                    <label>First Name:</label><br>
+                </tr>
+                <tr>
+                    <input type="text" name="fname" placeholder ="Enter your first name"><br><br>
+                </tr>
+                <tr> 
+                    <label>Last Name:</label><br>
+                </tr>
+                <tr>
+                    <input type="text" name="lname" placeholder ="Enter your last name"><br><br>
+                </tr>
+                <tr> 
+                    <label>Mobile Number:</label><br>
+                </tr>
+                <tr>
+                    <select name="course" class="sel">
+                        <option value="+91">+91</option>
+                        <option value="+92">+92</option>
+                        <option value="+95">+95</option>
+                    </select>
+                    <input type="text" name="mobile" placeholder ="Enter your mobile number"><br><br>
+                </tr>
+                <tr>
+                    <label>Email:</label><br>
+                </tr>
+                <tr>
+                    <input type="email" name="email" placeholder ="Enter your email"><br><br>
+                </tr>
+                <tr>            
+                    <label>Password:</label><br>
+                </tr>
+                <tr>
+                    <input type="password" name="password" placeholder="Enter your password"><br><br>
+                </tr>
+                <tr>
+                    <label>Confirm Password:</label><br>
+                </tr>
+                <tr>
+                    <input type="password" name="password" placeholder="Enter your password again"><br><br>
+                </tr>
+                <tr>
+                    <label>Gender : </label>
+                </tr>
+                <tr>
+                    <input type="radio" name="gender" value="male" class="rad"><label class="main">MALE</label><input type="radio" name="gender" value="female" class="rad"><label class="main" >FEMALE</label><br><br>
+                </tr>
+                <tr>
+                <input type="submit" value="SIGNUP"><br>
+                </tr>
+                <tr>
+                    <a href="/login/">Already Registered? </a>
+                </tr>
+        </form>
+        </div>
+    </body>
+</html>

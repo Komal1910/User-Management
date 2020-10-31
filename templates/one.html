@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <style>
+            h1{
+                color:coral;
+                font-style: italic;
+            }
+            body{
+                background-color: black;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Welcome to our homepage</h1>
+        {% if n %}
+        <h1>Welcome to my project {{n}}</h1>
+        {% endif %}
+        {% if data %}
+        {% for key,value in data.items() %}
+        <h1> {{key}} = {{value}} </h1> 
+        {% endfor %}
+        {% endif %}
+    </body>
+</html>
