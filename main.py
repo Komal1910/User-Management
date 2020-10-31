@@ -10,19 +10,13 @@ app = Flask(__name__)
 app.secret_key = "oihbauyiegbgycgabiuhdsjvjgasb"
 
 @app.route("/")
-def index():
-    if request.cookies.get("islogin"):
-        return render_template("afterlogin.html")
-    return render_template("nav_k.html")
-
-@app.route("/login/")
 def login():
-    if request.cookies.get("islogin"):
-        return render_template("afterlogin.html")
+    # if request.cookies.get("islogin"):
+    #     return render_template("afterlogin.html")
     return render_template("login.html")
 
-@app.route("/afterlogin/", methods=["POST","GET"])
-def afterlogin():
+@app.route("/login_user", methods=["POST","GET"])
+def login_user():
     if request.method == "GET":
         return render_template("login.html")
     elif request.method == "POST":
@@ -30,6 +24,8 @@ def afterlogin():
         password = request.form.get("password")
         if email:
             if password:
+                # to be removed -- temporary code
+                return redirect (url_for("dashboard"))
                 try:
                     db = sql.connect(host="localhost", port = 3306, user="root", password="", database="komal")
                 except Exception as e:
@@ -37,7 +33,7 @@ def afterlogin():
                     return render_template("login.html")
                 else:
                     cursor = db.cursor()
-                    cmd = f"select * from user where email='{email}' and password='{password}'"
+                    cmd = "select * from user where email='{email}' and password='{password}'"
                     cursor.execute(cmd)
                     data = cursor.fetchone()
                     if data:
@@ -48,7 +44,7 @@ def afterlogin():
                         #return resp
                         session['email'] = email
                         session["islogin"] = "True"
-                        return render_template("afterlogin.html",user=username)
+                        return render_template("dashboard.html",user=username)
                     else:                       
                         error = "Invalid email or password"
                         return render_template("login.html",error=error)    
@@ -59,13 +55,15 @@ def afterlogin():
                 error = "Invalid email"
                 return render_template("login.html",error = error)
 
-@app.route("/signup/")
+@app.route("/signup")
 def signup():
     return render_template("signup.html")
 
-@app.route("/aftersignup/",methods=["POST","GET"])
-def aftersignup():
+@app.route("/signup_user", methods=["POST","GET"])
+def signup_user():
     if request.method == "POST":
+        # to be removed -- temporary code
+        return redirect (url_for("login"))
         fname = request.form.get("fname")
         lname = request.form.get("lname")
         mobile = request.form.get("mobile")
@@ -81,7 +79,7 @@ def aftersignup():
                 return render_template("signup.html")
              else:
                     cursor = db.cursor()
-                    cmd = f"select * from user where email='{email}'"
+                    cmd = "select * from user where email='{email}'"
                     cursor.execute(cmd)
                     data = cursor.fetchone()
                     if data:
@@ -112,7 +110,7 @@ def aftersignup():
                                 #password = getpass("\n Enter your password : ")
                                 passwd= os.environ.get("EMAIL_HOST_PASSWORD")
                                 otp = randint(1000,9999)
-                                html = f"""
+                                html = """
                                     <html>
                                     <body>
                                     <h1 style='color:#123456;font-style:italic'>This is OTP {otp} for your account validation</h1>
@@ -138,7 +136,7 @@ def aftersignup():
                                     #cmd = f"insert into user values ('{fname}','{lname}','{mobile}','{email}','{password}','{gender}','{username}')"
                                     #cursor.execute(cmd)
                                     #db.commit()
-                                #return render_template("login.html")
+                                redirect (url_for("login"))
                             else:
                                 error = "Incorrect Password"
                                 return render_template("signup.html",error=error)
@@ -151,15 +149,31 @@ def aftersignup():
     else:
         render_template("Signup.html")
 
-@app.route("/logout/")
+@app.route("/dashboard")
+def dashboard():
+    return render_template("dashboard.html")
+
+@app.route("/profile")
+def profile():
+    return render_template("profile.html")
+
+@app.route("/projects")
+def projects():
+    return render_template("projects.html")
+
+@app.route("/employees")
+def employees():
+    return render_template("employees.html")
+
+@app.route("/logout")
 def logout():
     #resp = make_response(render_template("nav_k.html"))
     #resp.delete_cookie("email")
     #resp.delete_cookie("islogin")
     #return resp
-    del session["email"]             
-    del session["islogin"]
-    return redirect (url_for("index"))
+    # del session["email"]             
+    # del session["islogin"]
+    return redirect (url_for("login"))
     #return render_template("nav_k.html")
 
 #@app.route("/emailvalidate/")

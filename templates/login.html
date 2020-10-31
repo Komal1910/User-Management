@@ -56,32 +56,29 @@
     <body> 
         <h1 style="color: red;">{{error}}</h1>
         <center>
-        <div class="form-container">
-         
-          
-        <form method="POST" action="/afterlogin/">
-            <table>             
-                
-                <tr>
-                    <label>Email:</label><br>
-                </tr>
-                <tr>
-                    <input type="email" name="email" placeholder ="Enter your email"><br><br>
-                </tr>
-                <tr>            
-                    <label>Password:</label><br>
-                </tr>
-                <tr>
-                    <input type="password" name="password" placeholder="Enter your password"><br><br>
-                </tr>                
-                <tr>
-                <input type="submit" value="LOGIN"><br>
-                </tr>
-                <tr>
-                    <a href="/signup/">Not Registered? </a>
-                </tr>
-        </form>
-        </div>
+            <div class="form-container">
+                <form method="POST" action="/login_user">
+                    <table>             
+                        <tr>
+                            <label>Email:</label><br>
+                        </tr>
+                        <tr>
+                            <input type="email" name="email" placeholder ="Enter your email"><br><br>
+                        </tr>
+                        <tr>            
+                            <label>Password:</label><br>
+                        </tr>
+                        <tr>
+                            <input type="password" name="password" placeholder="Enter your password"><br><br>
+                        </tr>                
+                        <tr>
+                        <input type="submit" value="LOGIN"><br>
+                        </tr>
+                        <tr>
+                            <a href="/signup">Not Registered? </a>
+                        </tr>
+                </form>
+            </div>
         </center>
     </body>
 </html>
