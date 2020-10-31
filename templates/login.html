@@ -19,17 +19,16 @@
                 font-style: italic;
             }
             body{
-                background-image: url("/static/four.jpg");
+                background-color: lightgoldenrodyellow;
                 background-size: cover;
             }
             .form-container {
                 border: 2px solid pink;
                 border-radius: 10px;
                 width: 25%;
-                background-color: pink;
-                margin-left: 67%;
-                margin-top: -0.1%;
+                background-color: pink;                
                 padding: 0 40px;
+                margin-top: 150px;
             }
             input, select{
                 width: 65%;
@@ -56,8 +55,10 @@
     </head>
     <body> 
         <h1 style="color: red;">{{error}}</h1>
+        <center>
         <div class="form-container">
-              
+         
+          
         <form method="POST" action="/afterlogin/">
             <table>             
                 
@@ -81,5 +82,6 @@
                 </tr>
         </form>
         </div>
+        </center>
     </body>
 </html>
