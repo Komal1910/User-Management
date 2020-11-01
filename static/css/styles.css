@@ -1,5 +1,29 @@
+.navbar {
+    margin-bottom: 0;
+}
+
 .border-radius-0 {
     border-radius: 0;
+}
+
+.float-right {
+    float: right;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.color-green {
+    color: green;
+}
+
+.color-red {
+    color: red;
 }
 
 footer {    

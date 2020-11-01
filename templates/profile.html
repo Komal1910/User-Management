@@ -1,7 +1,18 @@
 {% extends "index.html" %}
 {% block body %}
     {{ super() }}
-    <div class="container">
-        Profile Page
+    <div class="background">
+        <div class="row width-50">
+            <h2>User Profile</h2>
+            <ul class="list-group">
+                <li class="list-group-item">Firstname: {{data.fname}}</li>
+                <li class="list-group-item">Lastname: {{data.lname}}</li>
+                <li class="list-group-item">Username: {{data.username}}</li>
+                <li class="list-group-item">Email: {{data.email}}</li>
+                <li class="list-group-item">Gender: {{data.fname}}</li>
+                <li class="list-group-item">Mobile number: {{data.mobile}}</li>
+                <li class="list-group-item">Department: {{data.department}}</li>
+            </ul>
+        </div>
     </div>
 {% endblock %}

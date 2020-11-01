@@ -157,11 +157,44 @@ def dashboard():
 
 @app.route("/profile")
 def profile():
-    return render_template("profile.html")
+    # get this data from the database and pass to template in the below format
+    user_data = {
+        "fname": "Komal",
+        "lname": "Hazari",
+        "username": "komal1505",
+        "email": "komal1505@gmail.com",
+        "gender": "Female",
+        "mobile": "+919999999999",
+        "department": "HR",
+    }
+    return render_template("profile.html", data=user_data)
 
 @app.route("/projects")
 def projects():
-    return render_template("projects.html")
+    # get this data from the database and pass to template in the below format
+    projects_data = [
+        {
+            "name": "EtonX",
+            "department": "IT",
+            "budget": 100,
+            "tasks_status": {
+                "Requirement Gathering": 1,
+                "Development": 1,
+                "Testing": 0,
+            }
+        },
+        {
+            "name": "Compete",
+            "department": "AI",
+            "budget": 1000,
+            "tasks_status": {
+                "Requirement Gathering": 1,
+                "Development": 0,
+                "Testing": 0,
+            }
+        }
+    ]
+    return render_template("projects.html", data=projects_data)
 
 @app.route("/employees")
 def employees():
