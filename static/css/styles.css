@@ -2,14 +2,24 @@
     border-radius: 0;
 }
 
-footer {
-    padding: 1rem;
+footer {    
     text-align: center;
     color: #9d9d9d;
     font-size: initial;
+    position:absolute;
+    bottom:0;
+    width:100%;
 }
 
-.login {
-    width: 50%;
+.width-50{
+    width:50%;
+    
+}
+
+.background{
     background-image: url("../images/background-login.jpg");
+    background-size: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
