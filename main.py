@@ -1,14 +1,7 @@
-from flask import Flask, render_template, request, make_response, session, redirect, url_for
+from flask import Flask, render_template, request, make_response, redirect, url_for
 import pymysql as sql
-import smtplib, ssl
-from email.mime.text import MIMEText
-#from email.MIMEMultipart import MIMEMultipart
-from random import randint
-import os
 
 app = Flask(__name__)
-app.secret_key = "oihbauyiegbgycgabiuhdsjvjgasb"
-
 db = sql.connect(host="localhost", port = 3307, user="root", password="root", database="test")
 
 @app.route("/")
