@@ -9,7 +9,12 @@ footer {
     font-size: initial;
 }
 
-.login {
+.login, .signup {
     width: 50%;
     background-image: url("../images/background-login.jpg");
+}
+
+.mobile {
+    display: inline-block;
+    width: auto;
 }
