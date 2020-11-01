@@ -1,7 +1,40 @@
 {% extends "index.html" %}
 {% block body %}
     {{ super() }}
-    <div class="container">
-        Projects Page
+    <div class="background">
+        <div class="row width-50">
+            <h2>Projects Listing</h2>
+            <ul class="list-group">
+            {% for project in data %}
+                <li class="list-group-item">
+                    <span class="bold">{{project.name}}</span>
+                    <a class="float-right" href="#project-{{loop.index}}" data-toggle="collapse"><i class="fa fa-caret-down"></i></a>
+                    <div id="project-{{loop.index}}" class="collapse">
+                        <div>Department: {{project.department}}</div>
+                        <div>Budget: ${{project.budget}}</div>
+                        <div>Tasks status: 
+                            <ul>
+                            {% for key in project.tasks_status %}
+                                <li>
+                                    <span>
+                                    {% if project.tasks_status[key] %}
+                                        <i class="fa fa-check color-green"></i>
+                                    {% else %}
+                                        <i class="fa fa-close color-red"></i>
+                                    {% endif %}
+                                    </span>
+                                    {{key}} 
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+                <li class="list-group-item">
+                    <a class="align-center" href="/add-project"><i class="fa fa-plus"></i> Add Project</a>
+                </li>
+            </ul>
+        </div>
     </div>
 {% endblock %}

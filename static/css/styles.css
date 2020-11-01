@@ -6,6 +6,26 @@
     border-radius: 0;
 }
 
+.float-right {
+    float: right;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.color-green {
+    color: green;
+}
+
+.color-red {
+    color: red;
+}
+
 footer {    
     text-align: center;
     color: #9d9d9d;
