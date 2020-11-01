@@ -16,18 +16,18 @@ def login():
     return render_template("login.html")
 
 @app.route("/login_user", methods=["POST","GET"])
-def login_user():
+def login_user():   
     # to be removed -- temporary code
-    return redirect (url_for("dashboard"))
+    #return redirect (url_for("dashboard"))
     if request.method == "GET":
         return render_template("login.html")
     elif request.method == "POST":
         email = request.form.get("email")
-        password = request.form.get("password")
+        password = request.form.get("password")        
         if email:
             if password:
                 # to be removed -- temporary code
-                return redirect (url_for("dashboard"))
+                # return redirect (url_for("dashboard"))
                 try:
                     db = sql.connect(host="localhost", port = 3306, user="root", password="", database="komal")
                 except Exception as e:
@@ -63,16 +63,15 @@ def signup():
 
 @app.route("/signup_user", methods=["POST","GET"])
 def signup_user():
-    if request.method == "POST":
-        # to be removed -- temporary code
-        return redirect (url_for("login"))
+    if request.method == "POST":        
         fname = request.form.get("fname")
         lname = request.form.get("lname")
-        mobile = request.form.get("mobile")
         email = request.form.get("email")
-        password = request.form.get("password")
+        password = request.form.get("password")   
         gender = request.form.get("gender")
+        mobile = request.form.get("mobile")
         username = email.split("@")[0]
+        print("Hello")       
         if email and password:
              try:
                 db = sql.connect(host="localhost", port=3306, user="root", password="", database="komal")
@@ -81,12 +80,13 @@ def signup_user():
                 return render_template("signup.html")
              else:
                     cursor = db.cursor()
-                    cmd = "select * from user where email='{email}'"
+                    cmd = "select * from spacedecor where email='{email}'"
                     cursor.execute(cmd)
                     data = cursor.fetchone()
+                    print("---------------------", data)
                     if data:
                         error = "Email already registered"
-                        return render_template("Signup.html",error=error)
+                        return render_template("signup.html",error=error)
                     else:
                         if len(password)>=8:
                             s = 0
@@ -104,40 +104,12 @@ def signup_user():
                                 if i.isdigit():
                                     n += 1
                             if s>=1 and l>=1 and u>=1 and n>=1:
-                                msg = MIMEMultipart()
-                                from_email = "komal155@gmail.com"
-                                msg['To'] = email
-                                msg['From'] = "komal1505@gmail.com"
-                                msg['Subject'] = "OTP for you account validation"
-                                #password = getpass("\n Enter your password : ")
-                                passwd= os.environ.get("EMAIL_HOST_PASSWORD")
-                                otp = randint(1000,9999)
-                                html = """
-                                    <html>
-                                    <body>
-                                    <h1 style='color:#123456;font-style:italic'>This is OTP {otp} for your account validation</h1>
-                                    <a href='/localhost/email_validate' style='color:coral;'>Click on this link for email validation</a>                                
-                                    </body>
-                                    </html>
-                                    """
-                                    
-
-                                plain = "This is plain message using mime from python script"
-
-                                #msg.attach(m)  #attached the message m
-                                
-                                #context = ssl.create_default_context()
-                                #try:
-                                #     with smtplib.SMTP_SSL("smtp.gmail.com",465,context=context) as server:
-                                #         server.login(email,password)
-                                #         server.sendmail(email,email,msg.as_string())
-                                # except Exception as e:
-                                #     return("Error : ",e)
-                                # else:
-                                #     return render_template("signup.html", error = "Message sent successfully")
-                                    #cmd = f"insert into user values ('{fname}','{lname}','{mobile}','{email}','{password}','{gender}','{username}')"
-                                    #cursor.execute(cmd)
-                                    #db.commit()
+                                print("Inser query next")                                                                
+                                cmd = "insert into spacedecor values ('{fname}','{lname}','{email}','{password}','{gender}', '{mobile}','{username}')"
+                                cursor.execute(cmd)
+                                print("Successful")
+                                db.commit()
+                                print("Hi")
                                 redirect (url_for("login"))
                             else:
                                 error = "Incorrect Password"
@@ -147,9 +119,9 @@ def signup_user():
                             return render_template("signup.html",error=error)            
         else:
             error = "Invalid Email or password"
-            return render_template("Signup.html",error=error)
+            return render_template("signup.html",error=error)
     else:
-        render_template("Signup.html")
+        render_template("signup.html")
 
 @app.route("/dashboard")
 def dashboard():
@@ -158,6 +130,10 @@ def dashboard():
 @app.route("/profile")
 def profile():
     # get this data from the database and pass to template in the below format
+    cursor = db.cursor()
+    cmd = "select * from spacedecor where email='{email}'"
+    cursor.execute(cmd)
+    d = cursor.fetchall()
     user_data = {
         "fname": "Komal",
         "lname": "Hazari",
