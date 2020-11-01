@@ -194,6 +194,10 @@ def projects():
     ]
     return render_template("projects.html", data=projects_data)
 
+@app.route("/add_project")
+def add_project():
+    return render_template("add_projects.html")
+
 @app.route("/employees")
 def employees():
     return render_template("employees.html")
