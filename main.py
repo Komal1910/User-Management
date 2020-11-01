@@ -165,7 +165,6 @@ def profile():
         "email": "komal1505@gmail.com",
         "gender": "Female",
         "mobile": "+919999999999",
-        "department": "HR",
     }
     return render_template("profile.html", data=user_data)
 
@@ -175,7 +174,6 @@ def projects():
     projects_data = [
         {
             "name": "EtonX",
-            "department": "IT",
             "budget": 100,
             "tasks_status": {
                 "Requirement Gathering": 1,

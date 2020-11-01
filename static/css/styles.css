@@ -44,3 +44,17 @@
     display: inline-block;
     width: auto;
 }
+
+.carousel-item {
+    height: 65%;
+}
+
+.carousel-image {
+    margin: auto;
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.about-us {
+    
+}
