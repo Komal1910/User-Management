@@ -9,16 +9,14 @@ import os
 app = Flask(__name__)
 app.secret_key = "oihbauyiegbgycgabiuhdsjvjgasb"
 
+db = sql.connect(host="localhost", port = 3307, user="root", password="root", database="test")
+
 @app.route("/")
 def login():
-    # if request.cookies.get("islogin"):
-    #     return render_template("afterlogin.html")
     return render_template("login.html")
 
 @app.route("/login_user", methods=["POST","GET"])
-def login_user():   
-    # to be removed -- temporary code
-    #return redirect (url_for("dashboard"))
+def login_user():
     if request.method == "GET":
         return render_template("login.html")
     elif request.method == "POST":
@@ -26,30 +24,18 @@ def login_user():
         password = request.form.get("password")        
         if email:
             if password:
-                # to be removed -- temporary code
-                # return redirect (url_for("dashboard"))
-                try:
-                    db = sql.connect(host="localhost", port = 3306, user="root", password="", database="komal")
-                except Exception as e:
-                    print(e)
-                    return render_template("login.html")
-                else:
-                    cursor = db.cursor()
-                    cmd = "select * from user where email='{email}' and password='{password}'"
-                    cursor.execute(cmd)
-                    data = cursor.fetchone()
-                    if data:
-                        username = data[6]
-                        #resp = make_response(render_template("afterlogin.html"))
-                        #resp.set_cookie("email",email)
-                        #resp.set_cookie("islogin","true")
-                        #return resp
-                        session['email'] = email
-                        session["islogin"] = "True"
-                        return render_template("dashboard.html",user=username)
-                    else:                       
-                        error = "Invalid email or password"
-                        return render_template("login.html",error=error)    
+                cursor = db.cursor()
+                cmd = "select * from users where email=%s and password=%s"
+                args=(email, password)
+                cursor.execute(cmd, args)
+                data = cursor.fetchone()
+                if data:
+                    res = make_response(redirect (url_for("dashboard")))
+                    res.set_cookie('user_email', data[3])
+                    return res
+                else:                       
+                    error = "Invalid email or password"
+                    return render_template("login.html",error=error)    
             else:
                 error = "Invalid password"
                 return render_template("login.html",error = error)
@@ -70,53 +56,22 @@ def signup_user():
         password = request.form.get("password")   
         gender = request.form.get("gender")
         mobile = request.form.get("mobile")
-        username = email.split("@")[0]
-        print("Hello")       
+        username = email.split("@")[0]    
         if email and password:
-             try:
-                db = sql.connect(host="localhost", port=3306, user="root", password="", database="komal")
-             except Exception as e:
-                print(e)
-                return render_template("signup.html")
-             else:
-                    cursor = db.cursor()
-                    cmd = "select * from spacedecor where email='{email}'"
-                    cursor.execute(cmd)
-                    data = cursor.fetchone()
-                    print("---------------------", data)
-                    if data:
-                        error = "Email already registered"
-                        return render_template("signup.html",error=error)
-                    else:
-                        if len(password)>=8:
-                            s = 0
-                            l = 0
-                            u = 0
-                            n = 0
-                            for i in password:
-                                special = "".join(["@","&","$","*","#","%","!"])
-                                if i in special:
-                                    s += 1 
-                                if i.islower():
-                                    l += 1
-                                if i.isupper():
-                                    u += 1
-                                if i.isdigit():
-                                    n += 1
-                            if s>=1 and l>=1 and u>=1 and n>=1:
-                                print("Inser query next")                                                                
-                                cmd = "insert into spacedecor values ('{fname}','{lname}','{email}','{password}','{gender}', '{mobile}','{username}')"
-                                cursor.execute(cmd)
-                                print("Successful")
-                                db.commit()
-                                print("Hi")
-                                redirect (url_for("login"))
-                            else:
-                                error = "Incorrect Password"
-                                return render_template("signup.html",error=error)
-                        else:
-                            error = "Incorrect Password"
-                            return render_template("signup.html",error=error)            
+            cursor = db.cursor()
+            cmd = "select * from users where email=%s"
+            args=(email,)
+            cursor.execute(cmd, args)
+            data = cursor.fetchone()
+            if data:
+                error = "Email already registered"
+                return render_template("signup.html", error=error)
+            else:
+                cmd = "insert into users (fname, lname, email, password, gender, mobile, username) values (%s, %s, %s, %s, %s, %s, %s)"
+                args = (fname, lname, email, password, gender, mobile, username)
+                cursor.execute(cmd, args)
+                db.commit()
+                return redirect (url_for("login"))           
         else:
             error = "Invalid Email or password"
             return render_template("signup.html",error=error)
@@ -125,62 +80,90 @@ def signup_user():
 
 @app.route("/dashboard")
 def dashboard():
-    return render_template("dashboard.html")
+    user_email = request.cookies.get('user_email')
+    if user_email: 
+        return render_template("dashboard.html")
+    else: 
+        return redirect (url_for("login"))
 
 @app.route("/profile")
 def profile():
-    # get this data from the database and pass to template in the below format
-    cursor = db.cursor()
-    cmd = "select * from spacedecor where email='{email}'"
-    cursor.execute(cmd)
-    d = cursor.fetchall()
-    user_data = {
-        "fname": "Komal",
-        "lname": "Hazari",
-        "username": "komal1505",
-        "email": "komal1505@gmail.com",
-        "gender": "Female",
-        "mobile": "+919999999999",
-    }
-    return render_template("profile.html", data=user_data)
+    user_email = request.cookies.get('user_email')
+    if user_email: 
+        cursor = db.cursor()
+        cmd = "select * from users where email=%s"
+        args = (user_email,)
+        cursor.execute(cmd, args)
+        data = cursor.fetchall()
+        data = list(list(data)[0])
+        user_data = {
+            "fname": data[1],
+            "lname": data[2],
+            "username": data[7],
+            "email": data[3],
+            "gender": data[5],
+            "mobile": data[6],
+        }
+        return render_template("profile.html", data=user_data)
+    else: 
+        return redirect (url_for("login"))
 
 @app.route("/projects")
 def projects():
-    # get this data from the database and pass to template in the below format
-    projects_data = [
-        {
-            "name": "EtonX",
-            "budget": 100,
-            "tasks_status": {
-                "Requirement Gathering": 1,
-                "Development": 1,
-                "Testing": 0,
-            }
-        },
-        {
-            "name": "Compete",
-            "department": "AI",
-            "budget": 1000,
-            "tasks_status": {
-                "Requirement Gathering": 1,
-                "Development": 0,
-                "Testing": 0,
-            }
-        }
-    ]
-    return render_template("projects.html", data=projects_data)
+    user_email = request.cookies.get('user_email')
+    if user_email: 
+        cursor = db.cursor()
+        cmd = "select * from projects p inner join project_tasks_mapping ptm on p.id=ptm.project_id;"
+        cursor.execute(cmd)
+        data = cursor.fetchall()
+        data = list(data)
+        projects_data=[]
+        for project in data:
+            project=list(project)
+            projects_data.append({
+                "name": project[1],
+                "budget": project[2],
+                "tasks_status": {
+                    project[5]: project[6]
+                }
+            })
+        return render_template("projects.html", data=projects_data)
+    else: 
+        return redirect (url_for("login"))
 
 @app.route("/add_project")
 def add_project():
-    return render_template("add_projects.html")
+    user_email = request.cookies.get('user_email')
+    if user_email: 
+        return render_template("add_projects.html")
+    else: 
+        return redirect (url_for("login"))
 
 @app.route("/add_project_submit", methods=["POST","GET"])
 def add_project_submit():
-    # insert the data into the db -- projects and project_task_mapping
-    if request.method == "GET":
-        return render_template("add_projects.html")
-    elif request.method == "POST":
-        return redirect (url_for("projects"))
+    user_email = request.cookies.get('user_email')
+    if user_email: 
+        if request.method == "GET":
+            return render_template("add_projects.html")
+        elif request.method == "POST":
+            name = request.form.get("name")
+            budget = request.form.get("budget")
+            task = request.form.get("task")
+            cursor = db.cursor()
+            cmd = "insert into projects (name, budget) values (%s, %s)"
+            args = (name, budget)
+            result = cursor.execute(cmd, args)
+            db.commit()
+            project_id = cursor.lastrowid
+            cmd = "insert into project_tasks_mapping (project_id, task) values (%s, %s)"
+            args = (project_id, task)
+            cursor.execute(cmd, args)
+            db.commit()
+            return redirect (url_for("projects"))          
+        else:
+            render_template("signup.html")
+    else: 
+        return redirect (url_for("login"))
 
 @app.route("/employees")
 def employees():
@@ -188,18 +171,9 @@ def employees():
 
 @app.route("/logout")
 def logout():
-    #resp = make_response(render_template("nav_k.html"))
-    #resp.delete_cookie("email")
-    #resp.delete_cookie("islogin")
-    #return resp
-    # del session["email"]             
-    # del session["islogin"]
-    return redirect (url_for("login"))
-    #return render_template("nav_k.html")
-
-#@app.route("/emailvalidate/")
-#def get_user(var):
-    #try:
+    res = make_response(redirect (url_for("login")))
+    res.delete_cookie('user_email')
+    return res
 
 app.run(host="localhost", port=8080, debug=True)
  
