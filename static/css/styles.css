@@ -8,3 +8,8 @@ footer {
     color: #9d9d9d;
     font-size: initial;
 }
+
+.login {
+    width: 50%;
+    background-image: url("../images/background-login.jpg");
+}

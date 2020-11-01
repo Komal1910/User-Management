@@ -17,6 +17,8 @@ def login():
 
 @app.route("/login_user", methods=["POST","GET"])
 def login_user():
+    # to be removed -- temporary code
+    return redirect (url_for("dashboard"))
     if request.method == "GET":
         return render_template("login.html")
     elif request.method == "POST":
