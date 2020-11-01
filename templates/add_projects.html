@@ -1,1 +1,35 @@
-Add projects Page
+{% extends "index.html" %}
+{% block body %}
+    {{ super() }}
+    <div class="background">
+        <div class="row width-50">
+            <h2>Add Project</h2>
+            <form id="add-project-form" method="POST" action="/add_project_submit">
+                <div class="form-group">
+                    <label for="name">Name: </label>
+                    <input type="name" class="form-control" id="name" placeholder="Add Project Name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="budget">Budget in $: </label>
+                    <input type="text" class="form-control" id="budget" placeholder="Enter Budget" name="budget" required>
+                </div>
+                <div class="form-group">
+                    <label>Tasks:</label>
+                    <div id="tasks-container">
+                        <input type="text" class="margin-bottom-10 form-control" placeholder="Enter task" name="task" required>
+                    </div>
+                    <div class="align-center">
+                        <a id="add-task" onclick="addTask()" class="btn btn-default"><i class="fa fa-plus"></i> Add Tasks</a>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-default">ADD</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        function addTask() {
+            document.getElementById("tasks-container").insertAdjacentHTML(
+                'beforeend', '<input type="text" class="margin-bottom-10 form-control" placeholder="Enter task" name="task" required>');
+        }
+    </script>
+{% endblock %}

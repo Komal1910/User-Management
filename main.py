@@ -174,6 +174,14 @@ def projects():
 def add_project():
     return render_template("add_projects.html")
 
+@app.route("/add_project_submit", methods=["POST","GET"])
+def add_project_submit():
+    # insert the data into the db -- projects and project_task_mapping
+    if request.method == "GET":
+        return render_template("add_projects.html")
+    elif request.method == "POST":
+        return redirect (url_for("projects"))
+
 @app.route("/employees")
 def employees():
     return render_template("employees.html")

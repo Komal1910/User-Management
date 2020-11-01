@@ -18,6 +18,14 @@
     font-weight: bold;
 }
 
+.margin-top-10 {
+    margin-top: 10px;
+}
+
+.margin-bottom-10 {
+    margin-bottom: 10px;
+}
+
 .color-green {
     color: green;
 }
@@ -27,8 +35,7 @@
 }
 
 .width-50{
-    width:50%;
-    
+    width:50%; 
 }
 
 .background{
@@ -53,8 +60,4 @@
     margin: auto;
     max-height: 100%;
     max-width: 100%;
-}
-
-.about-us {
-    
 }
