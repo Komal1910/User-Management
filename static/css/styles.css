@@ -23,3 +23,8 @@ footer {
     justify-content: center;
     align-items: center;
 }
+
+.mobile {
+    display: inline-block;
+    width: auto;
+}
